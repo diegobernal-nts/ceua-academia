@@ -1,0 +1,4 @@
+APP_NAME=CEUA Academia
+APP_LANG=es-mx
+WEB_URL=http://ceua-academia.hruza
+API_URL=http://ceua-api.hruza

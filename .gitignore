@@ -1,0 +1,20 @@
+# Base de datos y secretos
+sources/data/.data
+sources/data/.data.p
+.env
+*.sql
+scratch/
+database/
+
+# Entornos de desarrollo
+.vscode/
+.idea/
+
+# Logs
+*.log
+error_log
+access_log
+
+# OS generated files
+.DS_Store
+Thumbs.db
