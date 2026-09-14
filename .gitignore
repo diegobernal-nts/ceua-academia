@@ -1,6 +1,6 @@
 # Base de datos y secretos
-sources/Settings/.data
-sources/Settings/.data.p
+.data
+.data.p
 .env
 *.sql
 scratch/
