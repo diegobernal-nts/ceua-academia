@@ -54,6 +54,14 @@ class CatalogosController extends BaseController {
         echo json_encode($response);
     }
 
+    public function agregarGeneracion() {
+        $this->requireAuth();
+        $input = json_decode(file_get_contents('php://input'), true);
+        $response = $this->apiPost("/catalogos/generaciones", $input);
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+
     public function editarGeneracion($id) {
         $this->requireAuth();
         $input = json_decode(file_get_contents('php://input'), true);

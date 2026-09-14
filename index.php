@@ -48,6 +48,7 @@ $router->get('/catalogos', [Controllers\CatalogosController::class, 'index']);
 $router->post('/catalogos/programas', [Controllers\CatalogosController::class, 'agregarPrograma']);
 $router->put('/catalogos/programas/{id}', [Controllers\CatalogosController::class, 'editarPrograma']);
 $router->delete('/catalogos/programas/{id}', [Controllers\CatalogosController::class, 'eliminarPrograma']);
+$router->post('/catalogos/generaciones', [Controllers\CatalogosController::class, 'agregarGeneracion']);
 $router->put('/catalogos/generaciones/{id}', [Controllers\CatalogosController::class, 'editarGeneracion']);
 $router->delete('/catalogos/generaciones/{id}', [Controllers\CatalogosController::class, 'eliminarGeneracion']);
 
