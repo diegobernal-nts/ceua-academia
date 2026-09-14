@@ -102,27 +102,33 @@
                 <div class="tab-pane fade" id="generaciones" role="tabpanel" aria-labelledby="generaciones-tab">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="fw-bold text-white mb-0">Catálogo de Generaciones</h5>
-                        <button class="btn btn-sm btn-primary rounded-pill px-3"><i class="bi bi-plus-lg me-1"></i>Nuevo</button>
+                        <button class="btn btn-sm btn-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalAgregarGeneracion"><i class="bi bi-plus-lg me-1"></i>Nuevo</button>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-dark table-hover align-middle">
                             <thead class="table-dark">
                                 <tr>
                                     <th>ID</th>
-                                    <th>Descripción (Cohorte)</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Año Inicio</th>
+                                    <th>Año Término</th>
                                     <th class="text-end">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if (empty($generaciones)): ?>
-                                    <tr><td colspan="3" class="text-center text-muted py-4">No hay generaciones registradas.</td></tr>
+                                    <tr><td colspan="6" class="text-center text-muted py-4">No hay generaciones registradas.</td></tr>
                                 <?php else: ?>
                                     <?php foreach ($generaciones as $g): ?>
                                     <tr>
                                         <td><span class="badge bg-secondary"><?= $g['id'] ?></span></td>
                                         <td class="fw-bold"><?= htmlspecialchars($g['nombre']) ?></td>
+                                        <td><?= htmlspecialchars($g['descripcion']) ?></td>
+                                        <td><?= htmlspecialchars($g['anio_inicio']) ?></td>
+                                        <td><?= htmlspecialchars($g['anio_termino']) ?></td>
                                         <td class="text-end">
-                                            <button class="btn btn-sm btn-outline-info me-1 btn-edit-generacion" data-id="<?= $g['id'] ?>" data-nombre="<?= htmlspecialchars($g['nombre']) ?>"><i class="bi bi-pencil-square"></i></button>
+                                            <button class="btn btn-sm btn-outline-info me-1 btn-edit-generacion" data-id="<?= $g['id'] ?>" data-nombre="<?= htmlspecialchars($g['nombre']) ?>" data-descripcion="<?= htmlspecialchars($g['descripcion']) ?>" data-anio-inicio="<?= htmlspecialchars($g['anio_inicio']) ?>" data-anio-termino="<?= htmlspecialchars($g['anio_termino']) ?>"><i class="bi bi-pencil-square"></i></button>
                                             <button class="btn btn-sm btn-outline-danger btn-delete-generacion" data-id="<?= $g['id'] ?>"><i class="bi bi-trash"></i></button>
                                         </td>
                                     </tr>
@@ -235,6 +241,44 @@
     </div>
 </div>
 
+<!-- Modal Agregar Generación -->
+<div class="modal fade" id="modalAgregarGeneracion" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title fw-bold"><i class="bi bi-plus-circle me-2"></i>Nueva Generación</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formAgregarGeneracion">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label small">Nombre <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control bg-dark text-white border-secondary" id="addGenNombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small">Descripción <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control bg-dark text-white border-secondary" id="addGenDescripcion" name="descripcion" required>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <label class="form-label small">Año Inicio <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control bg-dark text-white border-secondary" id="addGenAnioInicio" name="anio_inicio" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small">Año Término <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control bg-dark text-white border-secondary" id="addGenAnioTermino" name="anio_termino" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="btnCrearGen"><i class="bi bi-check-circle me-1"></i> Crear Generación</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Modal Editar Generación -->
 <div class="modal fade" id="modalEditarGeneracion" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -247,8 +291,22 @@
                 <div class="modal-body">
                     <input type="hidden" id="editGenId" name="id">
                     <div class="mb-3">
-                        <label class="form-label small">Descripción (Cohorte) <span class="text-danger">*</span></label>
+                        <label class="form-label small">Nombre <span class="text-danger">*</span></label>
                         <input type="text" class="form-control bg-dark text-white border-secondary" id="editGenNombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small">Descripción <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control bg-dark text-white border-secondary" id="editGenDescripcion" name="descripcion" required>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <label class="form-label small">Año Inicio <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control bg-dark text-white border-secondary" id="editGenAnioInicio" name="anio_inicio" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small">Año Término <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control bg-dark text-white border-secondary" id="editGenAnioTermino" name="anio_termino" required>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer border-secondary">
@@ -343,11 +401,41 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --- GENERACIONES ---
+    // Agregar
+    document.getElementById('formAgregarGeneracion').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const nombre = document.getElementById('addGenNombre').value;
+        const descripcion = document.getElementById('addGenDescripcion').value;
+        const anio_inicio = document.getElementById('addGenAnioInicio').value;
+        const anio_termino = document.getElementById('addGenAnioTermino').value;
+        const btn = document.getElementById('btnCrearGen');
+        
+        btn.disabled = true;
+        btn.innerHTML = 'Creando...';
+
+        fetch('/catalogos/generaciones', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, descripcion, anio_inicio, anio_termino })
+        }).then(res => res.json()).then(res => {
+            if (res.status === 'success') {
+                window.location.reload();
+            } else {
+                alert("Error: " + res.message);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-check-circle me-1"></i> Crear Generación';
+            }
+        });
+    });
+
     const modalEditarGeneracion = new bootstrap.Modal(document.getElementById('modalEditarGeneracion'));
     document.querySelectorAll('.btn-edit-generacion').forEach(btn => {
         btn.addEventListener('click', function() {
             document.getElementById('editGenId').value = this.dataset.id;
             document.getElementById('editGenNombre').value = this.dataset.nombre;
+            document.getElementById('editGenDescripcion').value = this.dataset.descripcion;
+            document.getElementById('editGenAnioInicio').value = this.dataset.anioInicio;
+            document.getElementById('editGenAnioTermino').value = this.dataset.anioTermino;
             modalEditarGeneracion.show();
         });
     });
@@ -356,6 +444,9 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const id = document.getElementById('editGenId').value;
         const nombre = document.getElementById('editGenNombre').value;
+        const descripcion = document.getElementById('editGenDescripcion').value;
+        const anio_inicio = document.getElementById('editGenAnioInicio').value;
+        const anio_termino = document.getElementById('editGenAnioTermino').value;
         const btn = document.getElementById('btnGuardarGen');
         
         btn.disabled = true;
@@ -364,7 +455,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('/catalogos/generaciones/' + id, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre })
+            body: JSON.stringify({ nombre, descripcion, anio_inicio, anio_termino })
         }).then(res => res.json()).then(res => {
             if (res.status === 'success') {
                 window.location.reload();
